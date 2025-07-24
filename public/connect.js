@@ -16,20 +16,9 @@ class Connection {
     };
     S_CATMATCH = 'cat-match.easygame2021.com';// 服务器地址
     S_STATCATMATCH = 'cat-match-static.easygame2021.com';
-    P_Update_UserInfo = '/sheep/v1/game/update_user';//改名地址
     P_GetPlanetCoin = '/sheep/v1/game/planet/get_planet_coin?';//获取金币的路径
     P_GetUserInfo = '/sheep/v1/game/personal_info?';//获取个人信息的路径
     P_PlanetServer = '/sheep/v1/game/planet_server/v2?isByte=true';//plant server的路径
-    P_RoomServer = '/sheep/v1/game/room_server/v1?isByte=true';//房间地址
-    P_Ws_Planet = '/gateway/ws_planet?';
-    P_GetWorldMatch = '/sheep/v1/game/world/game_start?matchType=6&req_id=-1&use_item=0';
-    P_GetMatch = '/sheep/v1/game/map_info_ex?matchType=3&req_id=-1&use_item=0';
-    P_GetWXSeed = '/sheep/v1/game/map_info_ex_seed?isByte=true';
-    P_GetMap = '/maps/'
-    P_GetNormalRankInfo = '/sheep/v1/game/race/rank_list?detail=1'
-    P_ReportMatch = '/sheep/v1/game/game_over_ex?';
-    P_ReportWorldMatch = '/sheep/v1/game/world/game_over?';
-    P_MoveBlock = '/sheep/v1/game/block/get_move_block_slots?isByte=true';
     M_Get = 'GET';
     M_POST = 'POST';
     //长链接
@@ -194,36 +183,6 @@ class connect{
         }
         return JP['data'];
     };
-    async change_user_info(nick_name, avatar) {
-        const data = {
-            "nick_name": nick_name,
-            "avatar": avatar,
-            "gender": 0,
-            "rawData": { "nickName": nick_name, "gender": 0, "language": "zh_CN", "city": "", "province": "", "country": "", "avatarUrl": avatar },
-            "signature": "593c4def730a962407caf87c6d0259a502228191",
-            "encryptedData": "oUn/e6pZu0A10keS8Tp+iSOywceC/OCTFD9XM3Jfs1IyrV8ZYbELOuyWS8tvnq8QwTGq3xaOHHdTaCf9kThNAbZvbx5r7NdyxQpj5fia+H1ZF/jyg8ZU6ikBVRvhnashCjyRl01Tj8KPsLrBXlqUFFdMVDTeBstawaDVqc6pOWeFuTc0Ol6VCJlwPyQvdeS5AMaidP9IWDBQSER5t1Iv9CnHgQ1MunCRRE8SiGKzNWMvfASUqjCz3sPsQRwmsdRFHe5y+yy5D+1/TzIRrVuC1N0WMWMFYkzzPzLsnvrfBjAyarihLk6NiHRxNSwnzIVsNPdG+lUqGdn3DLEjJHuJMz/8ahMnLZIBuOhn6Dyd3Iz9MVlj6GhqjanvuY00+5ds3Js7fW8YCf5cNBESGKs/5s6S60Z0bAYMUi9BZ61xMEtzuxqquaZ94hZ3Bbw7wpFRFGTVR5gqn52vOdriwjNdIemslKO6pOT71GKPYNNYllf7OBx/qBOhgAxmz7TBMLZ2c8UexTxrZSKmCQDV1wiXDIoK7ExNqV0zHkvEoc5siIw=",
-            "iv": "VOQa5HLWAmylmyRy5q/RMg=="
-        };
-        //发起连接
-        let recive = await this.connection.connect_to_server(
-            this.connection.S_CATMATCH,
-            this.connection.P_Update_UserInfo,
-            this.connection.M_POST,
-            JSON.stringify(data)
-        );
-        //console.log(recive);
-        //转译json 可能有error,不要catch，直接丢出去
-        const JP = JSON.parse(recive);
-        //console.log(JP);
-        //处理错误
-        this.error_process(JP);
-        if (JP['data'] === 'OK')
-            return;
-        else {
-            throw new Error('逆天改名失败！');
-        }
-    };
-
 }
 
 module.exports = connect;
